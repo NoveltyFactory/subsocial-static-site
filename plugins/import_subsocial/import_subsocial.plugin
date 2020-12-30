@@ -1,0 +1,11 @@
+[Core]
+Name = import_subsocial
+Module = import_subsocial
+
+[Nikola]
+PluginCategory = Command
+
+[Documentation]
+Author = Alex J. Champandard
+Version = 0.1.0
+Description = Import a space from the Subsocial blockchain.

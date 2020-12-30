@@ -1,0 +1,3 @@
+POSTS = (
+    ("posts/*.html", "posts", "post.tmpl"),
+)

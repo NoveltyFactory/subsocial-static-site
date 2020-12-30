@@ -18,7 +18,7 @@ from nikola.plugins.basic_import import ImportMixin
 from nikola.plugins.command.init import SAMPLE_CONF, prepare_config
 
 
-import config
+import rpc
 
 
 LOGGER = utils.get_logger('import_subsocial', utils.STDERR_HANDLER)
@@ -62,7 +62,7 @@ class CommandImportSubsocial(Command, ImportMixin):
             url="wss://rpc.subsocial.network",
             ss58_format=28,
             type_registry_preset='polkadot',
-            type_registry=config.SUBSOCIAL_TYPES,
+            type_registry=rpc.SUBSOCIAL_TYPES,
         )
 
         posts = substrate.query(
