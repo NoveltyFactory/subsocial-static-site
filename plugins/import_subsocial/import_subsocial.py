@@ -18,9 +18,6 @@ from nikola.plugins.basic_import import ImportMixin
 from nikola.plugins.command.init import SAMPLE_CONF, prepare_config
 
 
-import rpc
-
-
 LOGGER = utils.get_logger('import_subsocial', utils.STDERR_HANDLER)
 
 
@@ -62,7 +59,7 @@ class CommandImportSubsocial(Command, ImportMixin):
             url="wss://rpc.subsocial.network",
             ss58_format=28,
             type_registry_preset='polkadot',
-            type_registry=rpc.SUBSOCIAL_TYPES,
+            type_registry=SUBSOCIAL_RPC_TYPES,
         )
 
         posts = substrate.query(
@@ -142,3 +139,72 @@ class CommandImportSubsocial(Command, ImportMixin):
             nocomments=True,
             previewimage=f"/image/{uuid}.png" if image else None,
         )
+
+
+SUBSOCIAL_RPC_TYPES = \
+    {'types': {
+        'SpaceId': 'u64',
+        'PostId': 'u64',
+        'WhoAndWhen': {
+            'type': 'struct',
+            'type_mapping': [
+                ('account', 'AccountId'),
+                ('block', 'BlockNumber'),
+                ('time', 'Moment'),
+            ]
+        },
+        'Content': {
+            'type': 'enum',
+            'type_mapping': [
+                ('None', 'Null'),
+                ('Raw', 'Text'),
+                ('IPFS', 'Text'),
+                ('Hyper', 'Text'),
+            ],
+        },
+        'Post': {
+            'type': 'struct',
+            'type_mapping': {
+                'id': 'PostId',
+                'created': 'WhoAndWhen',
+                'updated': 'Option<WhoAndWhen>',
+                'owner': 'AccountId',
+                'extension': 'PostExtension',
+                'space_id': 'Option<SpaceId>',
+                'content': 'Content',
+                'hidden': 'bool',
+                'replies_count': 'u16',
+                'hidden_replies_count': 'u16',
+                'shares_count': 'u16',
+                'upvotes_count': 'u16',
+                'downvotes_count': 'u16',
+                'score': 'i32'
+            }.items(),
+        },
+        'PostExtension': {
+            'type': 'enum',
+            'type_mapping': [
+                ('RegularPost', 'Null'),
+                ('Comment', 'Comment'),
+                ('SharedPost', 'PostId'),
+            ],
+        },
+        'Space': {
+            'type': 'struct',
+            'type_mapping': {
+                'id': 'SpaceId',
+                'created': 'WhoAndWhen',
+                'updated': 'Option<WhoAndWhen>',
+                'owner': 'AccountId',
+                'parent_id': 'Option<SpaceId>',
+                'handle': 'Option<Text>',
+                'content': 'Content',
+                'hidden': 'bool',
+                'posts_count': 'u32',
+                'hidden_posts_count': 'u32',
+                'followers_count': 'u32',
+                'score': 'i32',
+                'permissions': 'Option<SpacePermissions>'
+            }.items()
+        },
+    }}
