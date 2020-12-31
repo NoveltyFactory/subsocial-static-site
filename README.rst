@@ -5,6 +5,9 @@ Render your `Subsocial <https://subsocial.network>`_ spaces as static sites so y
 
 This script is a plugin for the `Nikola static-site generator <https://getnikola.com>`_ that imports the posts from a Subsocial space.
 
+.. image:: https://app.subsocial.network/ipfs/ipfs/QmeACtypY4PtJJSmKYQ598EBA2PxoLUVqkyzUAiCh2kbWt
+    :alt: Screenshots of Subsocial rendered as Nikola static-site
+
 Usage
 -----
 
